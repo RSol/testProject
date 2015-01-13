@@ -112,6 +112,8 @@ class SiteController extends Controller
         Yii::import('application.models.Email');
         $model = new Follow();
 		
+		
+		
         // collect user input data		
 		if(isset($_POST['ajax'])) {
 			if ($_POST['ajax'] == 'follow-form') {

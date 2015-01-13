@@ -32,7 +32,7 @@ class Follow extends CActiveRecord
 		return array(
 			array('zip', 'numerical', 'integerOnly'=>true),
 			array('name, city, state, country', 'length', 'max'=>255),
-			array('name, city', 'length', 'min'=>2),
+			array('city', 'length', 'min'=>2),
 			array('country', 'required'),
 			array('state', 'required', 'on' => 'usa_country'),
 			array('name', 'namevalidate'),
@@ -43,15 +43,23 @@ class Follow extends CActiveRecord
 	
 	public function namevalidate($attribute,$params)
     {
-		$str = str_word_count($this->name);
-		if ($str != 'null' && $str < 2) {
+		$str = sizeof(split(" ", preg_replace('/ {2,}/',' ',(trim($this->name)))));
+		$str_len = iconv_strlen($this->name, 'UTF-8');
+		if (empty($this->name)){
+			return;
+		}
+		if ($str_len < 2) {
+			$this->addError('name','Name is too short (minimum is 2 characters).');
+		}
+		if ($str < 2) {
 			$this->addError('name','Name must contain 2 words or more');	
 		}
     }
 	
 	public function zipvalidate($attribute,$params)
     {
-		if ($this->country == 'USA' && strlen($this->zip) != 5 && strlen($this->zip) > 0) {
+		$zip_len = strlen($this->zip);
+		if ($this->country == 'USA' && $zip_len != 5 && $zip_len > 0) {
 			$this->addError('zip','Length of zip for USA should be 5');		
 		}
     }

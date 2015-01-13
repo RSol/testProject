@@ -3,26 +3,15 @@
 // change the following paths if necessary
 $yii=dirname(__FILE__).'/framework/yii.php';
 
-switch ($_SERVER['SERVER_NAME']) {
-    case "zigmund":
-        $config=dirname(__FILE__).'/protected/config/mainZigmund.php';
-        break;
-    case "teodor":
-        $config=dirname(__FILE__).'/protected/config/mainTeodor.php';
-        break;
-    case "joker":
-        $config=dirname(__FILE__).'/protected/config/mainJoker.php';
-        break;
-    case "rodriges":
-        $config=dirname(__FILE__).'/protected/config/mainRodriges.php';
-        break;
-    case "pumpam":
-        $config=dirname(__FILE__).'/protected/config/mainPumpam.php';
-        break;
-    case "test.local":
-        $config=dirname(__FILE__).'/protected/config/mainTest.php';
-        break;
+$sn = explode('.', $_SERVER['SERVER_NAME']);
+
+
+if(file_exists(dirname(__FILE__).'/protected/config/'.$sn[0].'.php')){
+	$config=dirname(__FILE__).'/protected/config/'.$sn[0].'.php';
+} else {
+	$config=dirname(__FILE__).'/protected/config/mainTest.php';
 }
+
 // remove the following lines when in production mode
 defined('YII_DEBUG') or define('YII_DEBUG',true);
 // specify how many levels of call stack should be shown in each log message
