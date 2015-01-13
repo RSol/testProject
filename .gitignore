@@ -1,5 +1,6 @@
 /protected/config/db.php
 /assets/
-framework/
+/framework/
+/nbproject/
 /protected/runtime/
 /nbproject/private/
